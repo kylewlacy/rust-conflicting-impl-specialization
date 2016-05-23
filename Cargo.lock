@@ -1,0 +1,11 @@
+[root]
+name = "conflicting-assoc"
+version = "0.1.0"
+dependencies = [
+ "marker 0.1.0",
+]
+
+[[package]]
+name = "marker"
+version = "0.1.0"
+
