@@ -1,42 +1,46 @@
 #![feature(specialization)]
 
-extern crate marker;
+extern crate child;
 
-use marker::Marker;
+use child::Child;
+
+struct Alice;
+
+impl Child for Alice {
+    type Parent = ();
+}
+
+struct Bob;
+
+impl Child for Bob {
+    type Parent = Alice;
+}
+
+trait FooChild { }
+
+impl<T> FooChild for T
+    where T: Child, T::Parent: Foo
+{
+}
+
+
 
 trait Foo { fn foo(&self); }
 
-struct Fizz;
-
-impl Marker for Fizz {
-    type Mark = ();
+impl Foo for Alice {
+    fn foo(&self) { println!("Alice foo!"); }
 }
 
-impl Foo for Fizz {
-    fn foo(&self) { println!("Fizz!"); }
-}
-
-trait FooMarker { }
-
-impl<T> FooMarker for T
-    where T: Marker, T::Mark: Foo
-{
-
-}
-
+// Implement for all children with parents that implement `Foo`
 impl<T> Foo for T
-    where T: FooMarker
+    where T: FooChild
 {
-    default fn foo(&self) { println!("Has Foo marker!"); }
+    default fn foo(&self) { println!("Descendant foo!"); }
 }
 
-struct Buzz;
 
-impl Marker for Buzz {
-    type Mark = Fizz;
-}
 
 fn main() {
-    Fizz.foo();
-    Buzz.foo();
+    Alice.foo();
+    Bob.foo();
 }

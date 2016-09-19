@@ -2,10 +2,10 @@
 name = "conflicting-assoc"
 version = "0.1.0"
 dependencies = [
- "marker 0.1.0",
+ "child 0.1.0",
 ]
 
 [[package]]
-name = "marker"
+name = "child"
 version = "0.1.0"
 
